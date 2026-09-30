@@ -25,7 +25,7 @@ export default function App() {
   const [voterNote, setVoterNote] = useState("");
   const [ledger, setLedger] = useState<PublicLedgerView | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
-  const [status, setStatus] = useState("Connect 1AM on Preview to open the booth.");
+  const [status, setStatus] = useState("Connect 1AM on Preprod to open the booth.");
   const [actionBusy, setActionBusy] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [provingLocally, setProvingLocally] = useState(false);
@@ -43,7 +43,7 @@ export default function App() {
     async (address: string, silent = false) => {
       const trimmed = address.trim();
       if (!trimmed) {
-        setActionError("Paste a Preview ballot-box address first.");
+        setActionError("Paste a Preprod ballot-box address first.");
         return false;
       }
       if (!silent) {
@@ -78,12 +78,12 @@ export default function App() {
       autoJoinTried.current = false;
       setJoined(false);
       clearProvidersCache();
-      setStatus("Connect 1AM on Preview to open the booth.");
+      setStatus("Connect 1AM on Preprod to open the booth.");
       return;
     }
     if (autoJoinTried.current || joined || !contractAddress.trim()) return;
     autoJoinTried.current = true;
-    setStatus("Auto-joining known Preview ballot box…");
+    setStatus("Auto-joining known Preprod ballot box…");
     void doJoin(contractAddress, true).then((ok) => {
       if (!ok) {
         setStatus("Connect OK — Deploy a new ballot box or tap Join.");
@@ -94,7 +94,7 @@ export default function App() {
   async function onDeploy() {
     setActionBusy(true);
     setActionError(null);
-    setStatus("Deploying QuietBallot to Preview (proving may take a minute)…");
+    setStatus("Deploying QuietBallot to Preprod (proving may take a minute)…");
     try {
       const providers = await getProviders(requireApi());
       const { address } = await deployQuietBallot(providers, 0n);
@@ -102,7 +102,7 @@ export default function App() {
       setLedger(view);
       setContractAddress(address);
       setJoined(true);
-      setStatus(`Ballot box deployed on Preview: ${address}`);
+      setStatus(`Ballot box deployed on Preprod: ${address}`);
     } catch (err) {
       setActionError(err instanceof Error ? err.message : String(err));
       setStatus("Deploy failed.");
@@ -118,7 +118,7 @@ export default function App() {
   async function onCast() {
     const trimmed = contractAddress.trim();
     if (!trimmed) {
-      setActionError("Paste a Preview ballot-box address first.");
+      setActionError("Paste a Preprod ballot-box address first.");
       return;
     }
     if (selectedChoice === null) {
@@ -201,10 +201,10 @@ export default function App() {
       </header>
 
       <section className="hero">
-        <p className="eyebrow">Private voting · Midnight Preview</p>
+        <p className="eyebrow">Private voting · Midnight Preprod</p>
         <h1>QuietBallot</h1>
         <p className="hero-lead">
-          Cast an anonymous ballot on Midnight Preview: the private vote choice
+          Cast an anonymous ballot on Midnight Preprod: the private vote choice
           never appears on the public ledger; observers only see that a valid
           ballot was sealed, how many ballots exist, and a commitment.
         </p>
@@ -243,7 +243,7 @@ export default function App() {
           </div>
 
           <div className="field">
-            <label htmlFor="contract">Ballot box address (Preview)</label>
+            <label htmlFor="contract">Ballot box address (Preprod)</label>
             <input
               id="contract"
               value={contractAddress}
@@ -252,7 +252,7 @@ export default function App() {
                 setJoined(false);
                 autoJoinTried.current = false;
               }}
-              placeholder="Preview contract address"
+              placeholder="Preprod contract address"
               spellCheck={false}
             />
           </div>
@@ -369,7 +369,7 @@ export default function App() {
             </div>
             <div>
               <dt>network</dt>
-              <dd>Preview</dd>
+              <dd>Preprod</dd>
             </div>
           </dl>
           {contractAddress ? (
@@ -407,7 +407,7 @@ export default function App() {
         <span>
           Faucet:{" "}
           <a href={NETWORK.faucetUrl} target="_blank" rel="noreferrer">
-            Preview
+            Preprod
           </a>
         </span>
       </footer>

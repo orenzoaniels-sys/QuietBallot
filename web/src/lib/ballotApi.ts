@@ -93,7 +93,7 @@ export async function joinQuietBallot(
   const currentContractState =
     await providers.publicDataProvider.queryContractState(address);
   if (!currentContractState) {
-    throw new Error(`No contract found on Preview at ${address}`);
+    throw new Error(`No contract found on Preprod at ${address}`);
   }
 
   const initialContractState =
