@@ -1,0 +1,63 @@
+pragma language_version 0.23;
+
+import CompactStandardLibrary;
+
+/**
+ * QuietBallot — anonymous ballots with publicly verifiable participation.
+ *
+ * Encoding (prover-side):
+ * - `privateBallotClaim` is a 32-byte witness payload.
+ * - Bytes 0..7 = little-endian u64 choiceId (1=A, 2=B, 3=C).
+ * - Bytes 24..31 = domain tag "QuietBal" (exactly 8 bytes).
+ * - Circuit takes `choiceId: Uint<64>` as a *private* circuit parameter.
+ *
+ * Demo cast rule:
+ * - lastBallotValid = disclose(choiceId >= 1 && choiceId <= 3)
+ * - Under-demo (outside 1..3) still allowed; lastBallotValid=false, ballotsCast++.
+ *
+ * Public ledger ONLY:
+ * - lastBallotValid (Boolean)
+ * - ballotsCast (Counter)
+ * - latestBallotCommitment (Bytes<32>) = persistentHash(claim)
+ *
+ * NEVER writes choiceId / claim cleartext to the ledger.
+ * Level 2/3 does NOT publish per-option tallies (would weaken anonymity).
+ */
+
+export ledger lastBallotValid: Boolean;
+export ledger ballotsCast: Counter;
+export ledger latestBallotCommitment: Bytes<32>;
+
+constructor() {
+  lastBallotValid = false;
+  latestBallotCommitment = pad(32, "");
+}
+
+/**
+ * Private 32-byte ballot claim. Never written cleartext on-chain.
+ */
+witness privateBallotClaim(): Bytes<32>;
+
+/**
+ * Prove a ballot was cast without revealing the private choice.
+ * `choiceId` is a private circuit parameter (not a public ledger field).
+ */
+export circuit castBallot(choiceId: Uint<64>): [] {
+  const claim = privateBallotClaim();
+  const commitment = disclose(persistentHash<Bytes<32>>(claim));
+  latestBallotCommitment = commitment;
+  lastBallotValid = disclose(choiceId >= 1 && choiceId <= 3);
+  ballotsCast.increment(1);
+}
+
+export circuit getBallotsCast(): Uint<64> {
+  return ballotsCast;
+}
+
+export circuit getLastBallotValid(): Boolean {
+  return lastBallotValid;
+}
+
+export circuit getLatestBallotCommitment(): Bytes<32> {
+  return latestBallotCommitment;
+}
