@@ -1,18 +1,18 @@
-# QuietBallot — live demo
+﻿# QuietBallot â€” live demo
 
 | Item | Value |
 |---|---|
 | Live URL | https://quiet-ballot.vercel.app/ |
-| Network | Midnight Preprod |
+| Network | Midnight Preview |
 | Wallet | 1AM |
-| Flow | Connect → Deploy/Join → select A/B/C → Cast anonymous ballot → public board updates |
+| Flow | Connect â†’ Deploy/Join â†’ select A/B/C â†’ Cast anonymous ballot â†’ public board updates |
 
 ## Demo script (~90s)
 
 1. Open live URL; show QuietBallot hero + ballot paper.
-2. Connect 1AM (Preprod).
+2. Connect 1AM (Preview).
 3. Deploy or Join ballot box.
 4. Select **Option B** (private choice cards).
-5. Tap **Cast anonymous ballot** — status “Proving ballot…”.
-6. Show public board: `ballotsCast++`, commitment, `lastBallotValid` — option letter never appears.
+5. Tap **Cast anonymous ballot** â€” status â€œProving ballotâ€¦â€.
+6. Show public board: `ballotsCast++`, commitment, `lastBallotValid` â€” option letter never appears.
 7. Confirm selection cleared after success.

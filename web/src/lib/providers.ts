@@ -1,4 +1,4 @@
-import type { ConnectedAPI } from "@midnight-ntwrk/dapp-connector-api";
+﻿import type { ConnectedAPI } from "@midnight-ntwrk/dapp-connector-api";
 import { dappConnectorProofProvider } from "@midnight-ntwrk/midnight-js-dapp-connector-proof-provider";
 import { levelPrivateStateProvider } from "@midnight-ntwrk/midnight-js-level-private-state-provider";
 import { indexerPublicDataProvider } from "@midnight-ntwrk/midnight-js-indexer-public-data-provider";
@@ -10,7 +10,7 @@ import type {
   ProofProvider,
 } from "@midnight-ntwrk/midnight-js-types";
 import { createWalletProvidersFromConnector } from "./walletAdapter";
-import { PREPROD, ZK_ASSET_BASE } from "./config";
+import { NETWORK, ZK_ASSET_BASE } from "./config";
 
 export type QuietBallotProviders = MidnightProviders<string, string, unknown>;
 
@@ -42,7 +42,7 @@ async function buildProofProvider(
   }
 
   const config = await api.getConfiguration();
-  const proofUrl = config.proverServerUri || PREPROD.proofServerUrl;
+  const proofUrl = config.proverServerUri || NETWORK.proofServerUrl;
   return {
     proofProvider: httpClientProofProvider(proofUrl, zkConfigProvider),
     mode: "http",
@@ -51,7 +51,7 @@ async function buildProofProvider(
 
 /**
  * One provider set per wallet session.
- * Fresh Level private-state per click drops setContractAddress() and breaks Join → Call.
+ * Fresh Level private-state per click drops setContractAddress() and breaks Join â†’ Call.
  */
 export async function getProviders(
   api: ConnectedAPI,
@@ -59,8 +59,8 @@ export async function getProviders(
   if (cache?.api === api) return cache.providers;
 
   const config = await api.getConfiguration();
-  const indexer = config.indexerUri || PREPROD.indexerUrl;
-  const indexerWs = config.indexerWsUri || PREPROD.indexerWsUrl;
+  const indexer = config.indexerUri || NETWORK.indexerUrl;
+  const indexerWs = config.indexerWsUri || NETWORK.indexerWsUrl;
 
   const zkConfigProvider = new FetchZkConfigProvider<string>(
     `${window.location.origin}${ZK_ASSET_BASE}`,
@@ -104,3 +104,5 @@ export function clearProvidersCache(): void {
 
 /** @deprecated use getProviders */
 export const buildProviders = getProviders;
+
+

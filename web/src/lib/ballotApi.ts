@@ -1,4 +1,4 @@
-import { CompiledContract } from "@midnight-ntwrk/compact-js";
+﻿import { CompiledContract } from "@midnight-ntwrk/compact-js";
 import {
   createCircuitCallTxInterface,
   deployContract,
@@ -77,7 +77,7 @@ export async function deployQuietBallot(
 }
 
 /**
- * Attach to an already-deployed Preprod contract.
+ * Attach to an already-deployed Preview contract.
  * Uses HTTP indexer queries (no watchForDeployTxData hang after later calls).
  */
 export async function joinQuietBallot(
@@ -93,7 +93,7 @@ export async function joinQuietBallot(
   const currentContractState =
     await providers.publicDataProvider.queryContractState(address);
   if (!currentContractState) {
-    throw new Error(`No contract found on Preprod at ${address}`);
+    throw new Error(`No contract found on Preview at ${address}`);
   }
 
   const initialContractState =
@@ -128,7 +128,7 @@ export async function joinQuietBallot(
   };
 }
 
-/** Public ledger via indexer HTTP — no wallet / prove txs. */
+/** Public ledger via indexer HTTP â€” no wallet / prove txs. */
 export async function readPublicState(
   providers: QuietBallotProviders,
   contractAddress: string,
@@ -185,3 +185,4 @@ export async function castBallot(
     public: publicView,
   };
 }
+
