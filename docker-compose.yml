@@ -1,0 +1,5 @@
+services:
+  proof-server:
+    image: midnightnetwork/proof-server:latest
+    ports:
+      - "6300:6300"
