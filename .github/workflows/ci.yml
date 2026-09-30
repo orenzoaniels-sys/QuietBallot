@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    name: Contract tests + web build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Run contract / witness tests
+        run: npm test
+
+      - name: Sync ZK assets for browser
+        run: npm run web:sync-zk
+
+      - name: Install web dependencies
+        run: npm --prefix web ci
+
+      - name: Build web app
+        run: npm --prefix web run build
