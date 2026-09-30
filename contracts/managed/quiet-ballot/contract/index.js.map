@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "../../../../",
+  "sources": ["contracts/quiet-ballot.compact", "compiler/standard-library.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EA8BA;;;;;;;;;;;;;MAcA,AAAA,UAMC;;;;;cANyB,UAAkB;;;;;;;;;;;;;;;;;;yCAAlB,UAAkB;;;;;;;;;4CAAlB,UAAkB;;;OAM3C;MAED,AAAA,cAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAED,AAAA,kBAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAED,AAAA,yBAEC;;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;;;;;;;;;GA7BA;EAHD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAJA;;;;;;;;;yEAAuC;IACvC;;;;;;;;;yEAAmC;IACnC;;;;;;;;;yEAAgD;IAG9C;;;;;;;;;yEAAe;IACf;;;;;;;;;yEAAsB;;;;;;;GACvB;ECjCD,AAAA,kBAAA;oEAAA;;;EDsCA,AAAA,qBAAwC;;0DAAxC,kBAAwC;;;;;;;;;;;;;;GAAA;EAMxC,AAAA,aAMC,4BANyB,UAAkB;UACpC,OAA4B;UAC5B,YAAuD,0BAAP,OAAK;IAC3D;;;;;;;2HAAyB,YAAU;;yEAAb;UACtB,KAAe,GAAY,UAAQ,UAAS,UAAQ;IAApD;;;;;;;2HAAA,KAAe;;yEAAA;UACf,KAAW;IAAX;;;;;;;;;;6FAAA,KAAW;;;;wEAAA;;GACZ;EAED,AAAA,iBAEC;mCADQ;;;;;;;;;;;wGAAW;GACnB;EAED,AAAA,qBAEC;mCADQ;;;;;;;;;;;wGAAe;GACvB;EAED,AAAA,4BAEC;mCADQ;;;;;;;;;;;wGAAsB;GAC9B;;;;;;;;;;;;;;;;IApCD;qCAAA;;;;;;;;;;;0GAAuC;KAAA;IACvC;qCAAA;;;;;;;;;;;0GAAmC;KAAA;IACnC;qCAAA;;;;;;;;;;;0GAAgD;KAAA;;;;;;;;;;;;"
+}
