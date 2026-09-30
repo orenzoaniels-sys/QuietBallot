@@ -15,7 +15,7 @@
 | Link | URL |
 |---|---|
 | Repository | https://github.com/orenzoaniels-sys/QuietBallot |
-| Live demo | see [`docs/evidence/LIVE_DEMO.md`](./docs/evidence/LIVE_DEMO.md) |
+| Live demo | https://quiet-ballot.vercel.app/ |
 | Demo video | see [`docs/evidence/DEMO_VIDEO.md`](./docs/evidence/DEMO_VIDEO.md) |
 | Preprod contract | see [`docs/evidence/DEPLOYMENT.md`](./docs/evidence/DEPLOYMENT.md) |
 | Product proposal | [`docs/evidence/PRODUCT_PROPOSAL.md`](./docs/evidence/PRODUCT_PROPOSAL.md) |
@@ -55,7 +55,7 @@
 | `castBallot` from UI with local/wallet proving | ✅ |
 | Private choice never on public ballot-box board; cleared after cast | ✅ |
 | Deploy + Join (indexer, no watch hang) | ✅ |
-| Live Vercel demo | ✅ / pending URL fill |
+| Live Vercel demo | ✅ https://quiet-ballot.vercel.app/ |
 | Preprod address in README + DEPLOYMENT | ✅ / fill after deploy |
 | Privacy model (observer can / cannot) | ✅ |
 | ≥8 meaningful commits | ✅ |

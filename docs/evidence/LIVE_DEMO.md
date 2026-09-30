@@ -2,7 +2,7 @@
 
 | Item | Value |
 |---|---|
-| Live URL | `PENDING_VERCEL` |
+| Live URL | https://quiet-ballot.vercel.app/ |
 | Network | Midnight Preprod |
 | Wallet | 1AM |
 | Flow | Connect → Deploy/Join → select A/B/C → Cast anonymous ballot → public board updates |

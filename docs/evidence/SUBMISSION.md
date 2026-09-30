@@ -3,13 +3,13 @@
 ## Repository
 
 ```
-https://github.com/<owner>/QuietBallot
+https://github.com/orenzoaniels-sys/QuietBallot
 ```
 
 ## Live demo
 
 ```
-PENDING_VERCEL
+https://quiet-ballot.vercel.app/
 ```
 
 ## Preprod contract
