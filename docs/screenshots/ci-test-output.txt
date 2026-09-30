@@ -1,0 +1,17 @@
+
+> quiet-ballot@0.1.0 test
+> vitest run
+
+
+ RUN  v3.2.7 E:/sjtm/orenzoaniels@gmail.com/quiet-ballot
+
+ ✓ tests/witnesses.test.ts (5 tests) 5ms
+ ✓ tests/quiet-ballot.test.ts (11 tests) 118ms
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  22:25:16
+   Duration  563ms (transform 105ms, setup 0ms, collect 149ms, tests 123ms, environment 0ms, prepare 214ms)
+
+
+Sourcemap for "E:/sjtm/orenzoaniels@gmail.com/quiet-ballot/contracts/managed/quiet-ballot/contract/index.js" points to missing source files
