@@ -9,12 +9,50 @@ import {
   readPublicState,
   type PublicLedgerView,
 } from "./lib/ballotApi";
-import { BALLOT_OPTIONS, DEFAULT_CONTRACT_ADDRESS, NETWORK } from "./lib/config";
+import {
+  BALLOT_OPTIONS,
+  DEFAULT_CONTRACT_ADDRESS,
+  NETWORK,
+  NETWORK_ID,
+} from "./lib/config";
 import "./styles.css";
 
 function shortAddr(value: string): string {
   if (value.length < 20) return value;
   return `${value.slice(0, 10)}…${value.slice(-8)}`;
+}
+
+function formatActionError(err: unknown): string {
+  const raw = err instanceof Error ? err.message : String(err);
+  const lower = raw.toLowerCase();
+  if (
+    lower.includes("insufficient") ||
+    lower.includes("balance") ||
+    lower.includes("not enough") ||
+    lower.includes("funds")
+  ) {
+    return `Not enough Preprod funds. Fund your UNSHIELDED address at ${NETWORK.faucetUrl} then retry Deploy.`;
+  }
+  if (
+    lower.includes("network") ||
+    lower.includes("preprod") ||
+    lower.includes("preview") ||
+    lower.includes("wrong chain")
+  ) {
+    return `1AM must be on Preprod (not Preview). Switch network in 1AM, reconnect, then Deploy. Detail: ${raw}`;
+  }
+  if (
+    lower.includes("proof") ||
+    lower.includes("proving") ||
+    lower.includes("127.0.0.1:6300") ||
+    lower.includes("failed to fetch")
+  ) {
+    return `Proving failed. Keep 1AM open, approve the prove prompt, and retry. Detail: ${raw}`;
+  }
+  if (lower.includes("no midnight wallet") || lower.includes("1am")) {
+    return raw;
+  }
+  return raw;
 }
 
 export default function App() {
@@ -63,8 +101,8 @@ export default function App() {
         return true;
       } catch (err) {
         setJoined(false);
-        setActionError(err instanceof Error ? err.message : String(err));
-        setStatus("Join failed.");
+        setActionError(formatActionError(err));
+        setStatus("Join failed — see error below.");
         return false;
       } finally {
         if (!silent) setActionBusy(false);
@@ -96,7 +134,14 @@ export default function App() {
     setActionError(null);
     setStatus("Deploying QuietBallot to Preprod (proving may take a minute)…");
     try {
-      const providers = await getProviders(requireApi());
+      const session = wallet.session.current;
+      if (!session) throw new Error("Connect 1AM first");
+      if (session.networkId !== NETWORK_ID) {
+        throw new Error(
+          `Wallet network is "${session.networkId}" but app expects "${NETWORK_ID}". Switch 1AM to Preprod and reconnect.`,
+        );
+      }
+      const providers = await getProviders(session.api);
       const { address } = await deployQuietBallot(providers, 0n);
       const view = await readPublicState(providers, address);
       setLedger(view);
@@ -104,8 +149,8 @@ export default function App() {
       setJoined(true);
       setStatus(`Ballot box deployed on Preprod: ${address}`);
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : String(err));
-      setStatus("Deploy failed.");
+      setActionError(formatActionError(err));
+      setStatus("Deploy failed — see error below.");
     } finally {
       setActionBusy(false);
     }
@@ -152,8 +197,8 @@ export default function App() {
           : "Outside 1–3 range. Cast allowed; lastBallotValid=false — choice still private.",
       );
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : String(err));
-      setStatus("Ballot cast failed.");
+      setActionError(formatActionError(err));
+      setStatus("Ballot cast failed — see error below.");
       setProvingLocally(false);
     } finally {
       setActionBusy(false);
@@ -298,6 +343,14 @@ export default function App() {
 
           <div className="cta-row">
             <button
+              className="btn btn-stamp"
+              type="button"
+              disabled={!wallet.connected || actionBusy}
+              onClick={() => void onDeploy()}
+            >
+              {actionBusy ? "Deploying…" : "Deploy ballot box"}
+            </button>
+            <button
               className="btn"
               type="button"
               disabled={!wallet.connected || actionBusy}
@@ -319,6 +372,11 @@ export default function App() {
               Cast anonymous ballot
             </button>
           </div>
+          {!wallet.connected ? (
+            <p className="note">
+              Connect 1AM on <strong>Preprod</strong> first — Deploy stays disabled until then.
+            </p>
+          ) : null}
 
           {joined ? (
             <p className="note">

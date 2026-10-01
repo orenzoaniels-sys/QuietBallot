@@ -44,6 +44,11 @@ export function useMidnightWallet() {
       if (status.status !== "connected") {
         throw new Error("Wallet did not report connected status");
       }
+      if (status.networkId !== NETWORK_ID) {
+        throw new Error(
+          `1AM is on "${status.networkId}" but QuietBallot needs "${NETWORK_ID}". Switch 1AM to Preprod and try Connect again.`,
+        );
+      }
       setNetworkId(status.networkId);
       session.current = {
         api,
